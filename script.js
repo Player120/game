@@ -1,9 +1,6 @@
-let player1hp = 120
-let player1pp = 14
-let player2hp = 196
-let player2pp = 7
-let bosshp = 2007
-let bosspp = 15
+const player1 = ['', 100, 5]
+const player2 = ['', 200, 3]
+const boss = [500, 7]
 let boss_target = 0
 let current_player = 0
 let player1_deathmsg = 0
@@ -28,20 +25,18 @@ trip = 0
 
 let player1move;
 let player2move;
-let player1_name;
-let player2_name;
-const max_player1hp = player1hp
-const max_player2hp = player2hp  
+const max_player1hp = player1[1]
+const max_player2hp = player2[1]  
 
 function burncheck() {
     if (burn == 1) {
         damage = Math.round(Math.random()*12+2)
         alert("Boss is burned and took " + damage + " HP of damage!")
-        bosshp = bosshp - damage
-        if (bosshp < 0) {
-            bosshp = 0
+        boss[0] = boss[0] - damage
+        if (boss[0] < 0) {
+            boss[0] = 0
         }
-        alert("Boss has " + bosshp + " HP remaining!")
+        alert("Boss has " + boss[0] + " HP remaining!")
         burnheal = Math.round(Math.random()*9)
         if (burnheal < 3) {
             burn = 0
@@ -66,7 +61,7 @@ function cryingcheck() {
 }
 
 function cry_heal_msg_for_all_boss_actions() {
-    if (player1hp > 0 && cryingHealmsg == 1) {
+    if (player1[1] > 0 && cryingHealmsg == 1) {
         alert("Boss stopped crying!")
         cryingHealmsg = 0
     }
@@ -134,85 +129,85 @@ function bossdamage() { /* Boss normal attack */
                 do {
                     boss_target = Math.round(Math.random()*2)
                 } while (boss_target < 1)
-                if (boss_target == 1 && player1hp <= 0) {
+                if (boss_target == 1 && player1[1] <= 0) {
                     boss_target = 2
                 }
-                if (boss_target == 2 && player2hp <= 0) {
+                if (boss_target == 2 && player2[1] <= 0) {
                     boss_target = 1
                 }
             /* Test for who boss will target */
             /* If boss targets player 1 */
                 if (boss_target == 1) {
-                    player1hp = player1hp - damage
+                    player1[1] = player1[1] - damage
                     if (miss < 100) {
-                        alert(critMsg + " " + damage + ' HP of damage to ' + player1_name + '!')
+                        alert(critMsg + " " + damage + ' HP of damage to ' + player1[0] + '!')
                     } else {
                         alert("Boss missed the attack!")
                     }
-                    if (player1hp <= 0) {
-                        player1hp = 0
+                    if (player1[1] <= 0) {
+                        player1[1] = 0
                     }
                     if (miss < 100) {
-                        alert(player1_name + " has " + player1hp + " HP remaining!")
+                        alert(player1[0] + " has " + player1[1] + " HP remaining!")
                     }
                 } 
             /* If boss targets player 1 */
             /* If boss targets player 2 */
                 if (boss_target == 2) {
-                    player2hp = player2hp - damage
+                    player2[1] = player2[1] - damage
                     if (miss < 100) {
-                        alert(critMsg + " " + damage + ' HP of damage to ' + player2_name + '!')
+                        alert(critMsg + " " + damage + ' HP of damage to ' + player2[0] + '!')
                     } else {
                         alert("Boss missed the attack!")
                     }
-                    if (player2hp <= 0) {
-                        player2hp = 0
+                    if (player2[1] <= 0) {
+                        player2[1] = 0
                     }
                     if (miss < 100) {
-                        alert(player2_name + " has " + player2hp + " HP remaining!")
+                        alert(player2[0] + " has " + player2[1] + " HP remaining!")
                     }
-                    if (player2hp <= 0) {
+                    if (player2[1] <= 0) {
                         player2_deathmsg = 1
                     } 
                     if (player2_deathmsg == 1) {
-                        alert(player2_name + " got hurt and colapsed...")
+                        alert(player2[0] + " got hurt and colapsed...")
                         player2_deathmsg = 2
                     }                    
                 }
             /* If boss targets player 2 */
             /* Test for burns */
-                if (player1hp > 0 && player2hp > 0) {
+                if (player1[1] > 0 && player2[1] > 0) {
                     burncheck()
                 } 
             /* Test for burns */
 
             /* Stop crying */
-                if (player1hp > 0 && player2hp > 0) {
+                if (player1[1] > 0 && player2[1] > 0) {
                     cry_heal_msg_for_all_boss_actions()
                 }
             /* Stop crying */
         } else {
-            bosshp = bosshp - damage
+            boss[0] = boss[0] - damage
             alert("Boss is atacking!")
             if (miss < 100) {
                 alert(critMsg + " " + damage + ' HP of damage to Boss!')
             } else {
                 alert("Boss missed the attack!")
             }
-            if (bosshp <= 0) {
-                bosshp = 0
+            if (boss[0] <= 0) {
+                boss[0] = 0
             }
             if (miss < 100) {
-                alert("Boss has " + bosshp + " HP remaining!")
+                alert("Boss has " + boss[0] + " HP remaining!")
             }
             /* Test for burns */
-            if (bosshp > 0) {
+            if (boss[0] > 0) {
                 burncheck()
             } 
             /* Test for burns */
 
             /* Stop crying */
-                if (bosshp > 0) {
+                if (boss[0] > 0) {
                     cry_heal_msg_for_all_boss_actions()
                 }
             /* Stop crying */
@@ -220,17 +215,17 @@ function bossdamage() { /* Boss normal attack */
 
     } else {
         alert("Boss's body is numb and it can't move!")
-        if (paralysis == 1 && bosshp > 0) {
+        if (paralysis == 1 && boss[0] > 0) {
             paralyseHeal()
         }
-        if (confusion == 1 && bosshp > 0) {
+        if (confusion == 1 && boss[0] > 0) {
             confusionHeal()
         }
     }
-    if (paralysis == 1 && bosshp > 0) {
+    if (paralysis == 1 && boss[0] > 0) {
         paralyseHeal()
     }
-    if (confusion == 1 && bosshp > 0) {
+    if (confusion == 1 && boss[0] > 0) {
         confusionHeal()
     }
     turn()                                       
@@ -240,10 +235,10 @@ function bossHeal() { /* Boss healing */
     alert("Boss is healing!")
         healvalue = Math.round(Math.random()*25+3)
         if (confusionHit == 0) {
-            bosshp = bosshp + healvalue
+            boss[0] = boss[0] + healvalue
             alert("Boss healed " + healvalue + " HP!")
-            alert("Boss now has " + bosshp + " HP!")
-            if (player1hp > 0 && player2hp > 0) {
+            alert("Boss now has " + boss[0] + " HP!")
+            if (player1[1] > 0 && player2[1] > 0) {
                 burncheck()
             }
             /* Test for crying */
@@ -256,23 +251,23 @@ function bossHeal() { /* Boss healing */
             } while (who_will_heal < 1)
             /* Player 1 or Player 2 */
                 if (who_will_heal == 1) {
-                    player1hp = player1hp + healvalue
-                    if (player1hp > 100) {
-                        player1hp = 100
+                    player1[1] = player1[1] + healvalue
+                    if (player1[1] > max_player1hp) {
+                        player1[1] = max_player1hp
                     }
-                    alert(player1_name + " healed " + healvalue + " HP!")
-                    alert(player1_name + " now has " + player1hp + " HP!")
+                    alert(player1[0] + " healed " + healvalue + " HP!")
+                    alert(player1[0] + " now has " + player1[1] + " HP!")
                 }
                 if (who_will_heal == 2) {
-                    player2hp = player2hp + healvalue
-                    if (player2hp > 100) {
-                        player2hp = 100
+                    player2[1] = player2[1] + healvalue
+                    if (player2[1] > max_player2hp) {
+                        player2[1] = max_player2hp
                     }
-                    alert(player2_name + " healed " + healvalue + " HP!")
-                    alert(player2_name + " now has " + player2hp + " HP!")
+                    alert(player2[0] + " healed " + healvalue + " HP!")
+                    alert(player2[0] + " now has " + player2[1] + " HP!")
                 }                          
             /* Player 1 or Player 2 */
-            if (bosshp > 0) {
+            if (boss[0] > 0) {
                 burncheck()
             }
             /* Test for crying */
@@ -280,10 +275,10 @@ function bossHeal() { /* Boss healing */
                 cry_heal_msg_for_all_boss_actions()
             /* Test for crying */
             }
-    if (paralysis == 1 && bosshp > 0) {
+    if (paralysis == 1 && boss[0] > 0) {
         paralyseHeal()
     }
-    if (confusion == 1 && bosshp > 0) {
+    if (confusion == 1 && boss[0] > 0) {
         confusionHeal()
     }
     turn()
@@ -300,7 +295,7 @@ function bossAction() { /* What will boss do */
                 alert("Boss is acting a bit unusual...")
             }
         }
-        if (bosshp < 30) { /* Boss healing test */
+        if (boss[0] < 30) { /* Boss healing test */
             bossChance = Math.round(Math.random()*1)
             if (bossChance == 1) {
                 bossHeal()
@@ -338,7 +333,7 @@ function bossAction() { /* What will boss do */
                 trip_getUp()
             }
         /* If tripped*/
-        if (player1hp > 0 && player2hp > 0) {
+        if (player1[1] > 0 && player2[1] > 0) {
             burncheck()
         }
         /* Stop crying */
@@ -350,7 +345,7 @@ function bossAction() { /* What will boss do */
 }
 
 function bossPSI() { /* Boss PSI */
-    if (bosspp > 0) {    
+    if (boss[1] > 0) {    
         do {
             damage = Math.round(Math.random()*35 + Math.round(Math.random()*10+1))
         } while (damage < 20)
@@ -360,26 +355,26 @@ function bossPSI() { /* Boss PSI */
                 do {
                     boss_target = Math.round(Math.random()*2)
                 } while (boss_target < 1)
-                if (boss_target == 1 && player1hp <= 0) {
+                if (boss_target == 1 && player1[1] <= 0) {
                     boss_target = 2
                 }
-                if (boss_target == 2 && player2hp <= 0) {
+                if (boss_target == 2 && player2[1] <= 0) {
                     boss_target = 1
                 }
             /* Test for who boss will target */
             /* If player 1 gets targeted */
                 if (boss_target == 1) {
-                    alert(damage + ' HP of damage to ' + player1_name + '!')
-                    player1hp = player1hp - damage
-                    if (player1hp < 0) {
-                        player1hp = 0
+                    alert(damage + ' HP of damage to ' + player1[0] + '!')
+                    player1[1] = player1[1] - damage
+                    if (player1[1] < 0) {
+                        player1[1] = 0
                     }
-                    alert(player1_name + ' now has ' + player1hp + ' HP remaining!')
-                    if (player1hp > 0 && player2hp > 0) {
+                    alert(player1[0] + ' now has ' + player1[1] + ' HP remaining!')
+                    if (player1[1] > 0 && player2[1] > 0) {
                         burncheck()
                     }                        
                     /* Stop crying */
-                    if (player1hp > 0 && player2hp > 0) {
+                    if (player1[1] > 0 && player2[1] > 0) {
                         cryingcheck()
                         cry_heal_msg_for_all_boss_actions()
                     }
@@ -387,17 +382,17 @@ function bossPSI() { /* Boss PSI */
             /* If player 1 gets targeted */
             /* If player 2 gets targeted */
                 if (boss_target == 2) {
-                        alert(damage + ' HP of damage to ' + player2_name + '!')
-                        player2hp = player2hp - damage
-                        if (player2hp < 0) {
-                            player2hp = 0
+                        alert(damage + ' HP of damage to ' + player2[0] + '!')
+                        player2[1] = player2[1] - damage
+                        if (player2[1] < 0) {
+                            player2[1] = 0
                         }
-                        alert(player2_name + ' now has ' + player2hp + ' HP remaining!')
-                        if (player1hp > 0 && player2hp > 0) {
+                        alert(player2[0] + ' now has ' + player2[1] + ' HP remaining!')
+                        if (player1[1] > 0 && player2[1] > 0) {
                             burncheck()
                         }                        
                         /* Stop crying */
-                        if (player1hp > 0 && player2hp > 0) {
+                        if (player1[1] > 0 && player2[1] > 0) {
                             cryingcheck()
                             cry_heal_msg_for_all_boss_actions()
                         }
@@ -406,26 +401,26 @@ function bossPSI() { /* Boss PSI */
             /* Stop crying */  
         } else {
             alert(damage + ' HP of damage to Boss!')
-            bosshp = bosshp - damage
-            if (bosshp < 0) {
-                bosshp = 0
+            boss[0] = boss[0] - damage
+            if (boss[0] < 0) {
+                boss[0] = 0
             }
-            alert('Boss has ' + bosshp + ' HP remaining!')   
-            if (bosshp > 0) {
+            alert('Boss has ' + boss[0] + ' HP remaining!')   
+            if (boss[0] > 0) {
                 burncheck()
             }   
             /* Stop crying */
-            if (bosshp > 0) {
+            if (boss[0] > 0) {
                 cryingcheck()
                 cry_heal_msg_for_all_boss_actions()
             }
             /* Stop crying */                 
         }
-        bosspp = bosspp - 1
-        if (paralysis == 1 && bosshp > 0) {
+        boss[1] = boss[1] - 1
+        if (paralysis == 1 && boss[0] > 0) {
             paralyseHeal()
         }
-        if (confusion == 1 && bosshp > 0) {
+        if (confusion == 1 && boss[0] > 0) {
             confusionHeal()
         }
         turn()  
@@ -437,13 +432,13 @@ function bossPSI() { /* Boss PSI */
 function player1Action() { /* Player 1 turn */
     current_player = 1
     player1move = parseInt (prompt(
-                player1_name + '\n' +
+                player1[0] + '\n' +
                 'What will you do?'+'\n'+
                 '(1) Attack' + "\n" +
                 '(2) Heal' + '\n' +
                 '(3) PSI' + '\n' +
                 '(4) EXIT' + '\n' +
-                "HP - " + player1hp + " | PP - " + player1pp
+                "HP - " + player1[1] + " | PP - " + player1[2]
             ))
             console.log(`Player 1 ação: ${player1move}`)
             if (Number(player1move) !== 4) {
@@ -461,13 +456,13 @@ function player1Action() { /* Player 1 turn */
         function player2Action() { /* Player 2 turn */
         current_player = 2
         player2move = parseInt (prompt(
-                player2_name + '\n' +
+                player2[0] + '\n' +
                 'What will you do?'+'\n'+
                 '(1) Attack' + "\n" +
                 '(2) Heal' + '\n' +
                 '(3) PSI' + '\n' +
                 '(4) EXIT' + '\n' +
-                "HP - " + player2hp + " | PP - " + player2pp
+                "HP - " + player2[1] + " | PP - " + player2[2]
             ))
             console.log(`Player 2 ação: ${player2move}`)
             if (Number(player2move) !== 4) {
@@ -495,13 +490,13 @@ function playerAttack() { /* Player normal attack */
             } else {
                 critMsg = ""
             }
-            alert(player1_name + " is attacking!")
-            bosshp = bosshp - damage
+            alert(player1[0] + " is attacking!")
+            boss[0] = boss[0] - damage
             alert(critMsg + " " + damage + ' HP of damage to Boss!')
-            if (bosshp <= 0) {
-                bosshp = 0
+            if (boss[0] <= 0) {
+                boss[0] = 0
             }
-            alert("Boss has " + bosshp + " HP remaining!")
+            alert("Boss has " + boss[0] + " HP remaining!")
         }
     /* If player 1 attacks */
     /* If player 2 attacks */
@@ -516,13 +511,13 @@ function playerAttack() { /* Player normal attack */
             } else {
                 critMsg = ""
             }
-            alert(player2_name + " is attacking!")
-            bosshp = bosshp - damage
+            alert(player2[0] + " is attacking!")
+            boss[0] = boss[0] - damage
             alert(critMsg + " " + damage + ' HP of damage to Boss!')
-            if (bosshp <= 0) {
-                bosshp = 0
+            if (boss[0] <= 0) {
+                boss[0] = 0
             }
-            alert("Boss has " + bosshp + " HP remaining!")
+            alert("Boss has " + boss[0] + " HP remaining!")
         }
     /* If player 2 attacks */
 }
@@ -531,25 +526,25 @@ function playerHeal() { /* Player heal */
     /* If player 1 heals */
         if (current_player == 1) {
             healvalue = Math.round(Math.random()*25+7)
-            player1hp = player1hp + healvalue
-            if (player1hp > max_player1hp) {
-                player1hp = 100
+            player1[1] = player1[1] + healvalue
+            if (player1[1] > max_player1hp) {
+                player1[1] = max_player1hp
             }
-            alert(player1_name + " is healing!")
-            alert(player1_name + " healed " + healvalue + " HP!")
-            alert(player1_name + " now has " + player1hp + " HP!")
+            alert(player1[0] + " is healing!")
+            alert(player1[0] + " healed " + healvalue + " HP!")
+            alert(player1[0] + " now has " + player1[1] + " HP!")
         }
     /* If player 1 heals */
     /* If player 2 heals */
     if (current_player == 2) {
             healvalue = Math.round(Math.random()*25+7)
-            player2hp = player2hp + healvalue
-            if (player2hp > max_player2hp) {
-                player2hp = 100
+            player2[1] = player2[1] + healvalue
+            if (player2[1] > max_player2hp) {
+                player2[1] = max_player2hp
             }
-            alert(player2_name + " is healing!")
-            alert(player2_name + " healed " + healvalue + " HP!")
-            alert(player2_name + " now has " + player2hp + " HP!")
+            alert(player2[0] + " is healing!")
+            alert(player2[0] + " healed " + healvalue + " HP!")
+            alert(player2[0] + " now has " + player2[1] + " HP!")
         }
     /* If player 2 heals */
 }
@@ -558,7 +553,7 @@ function PKfreeze() { /* Player PSI */
     /* Enough pp test*/
         /* Player 1 */
             if (current_player == 1) {
-                if (player1pp > 0) {
+                if (player1[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -567,7 +562,7 @@ function PKfreeze() { /* Player PSI */
         /* Player 1 */
         /* Player 2 */
             if (current_player == 2) {
-                if (player2pp > 0) {
+                if (player2[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -581,12 +576,12 @@ function PKfreeze() { /* Player PSI */
         } while (damage < 15)
         /* If player 1 */
             if (current_player == 1) {
-                alert(player1_name + ' tried PK Freeze!')
+                alert(player1[0] + ' tried PK Freeze!')
             }
         /* If player 1 */
         /* If player 2 */
             if (current_player == 2) {
-                alert(player2_name + ' tried PK Freeze!')
+                alert(player2[0] + ' tried PK Freeze!')
             }
         /* If player 2*/
         alert(damage + ' HP of damage to Boss!')
@@ -597,20 +592,20 @@ function PKfreeze() { /* Player PSI */
                 alert("Boss was frozen solid!")
             }
         /* Freeze test end */
-        bosshp = bosshp - damage
-        if (bosshp < 0) {
-            bosshp = 0
+        boss[0] = boss[0] - damage
+        if (boss[0] < 0) {
+            boss[0] = 0
         }
-        alert('Boss has ' + bosshp + ' HP remaining!')  
+        alert('Boss has ' + boss[0] + ' HP remaining!')  
 
         /* If player 1 */
             if (current_player == 1) {
-                player1pp--
+                player1[2]--
             }
         /* If player 1 */  
         /* If player 2 */
             if (current_player == 2) {
-                player2pp--
+                player2[2]--
             }
         /* If player 2 */
         } else {
@@ -623,7 +618,7 @@ function PKfire() {
     /* Enough pp test*/
         /* Player 1 */
         if (current_player == 1) {
-                if (player1pp > 0) {
+                if (player1[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -632,7 +627,7 @@ function PKfire() {
         /* Player 1 */
         /* Player 2 */
             if (current_player == 2) {
-                if (player2pp > 0) {
+                if (player2[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -646,12 +641,12 @@ function PKfire() {
         } while (damage < 35)
         /* If player 1 */
             if (current_player == 1) {
-                    alert(player1_name + ' tried PK Fire!')
+                    alert(player1[0] + ' tried PK Fire!')
             }
         /* If player 1 */
         /* If player 2 */
             if (current_player == 2) {
-                alert(player2_name + ' tried PK Fire!')
+                alert(player2[0] + ' tried PK Fire!')
             }
         /* If player 2*/
         alert(damage + ' HP of damage to Boss!')
@@ -662,20 +657,20 @@ function PKfire() {
                 alert('Boss suffered a severe burn!')
             }
         /* Burn test end */
-        bosshp = bosshp - damage
-        if (bosshp < 0) {
-            bosshp = 0
+        boss[0] = boss[0] - damage
+        if (boss[0] < 0) {
+            boss[0] = 0
         }
-        alert('Boss has ' + bosshp + ' HP remaining!')  
+        alert('Boss has ' + boss[0] + ' HP remaining!')  
 
         /* If player 1 */
             if (current_player == 1) {
-                player1pp--
+                player1[2]--
             }
         /* If player 1 */  
         /* If player 2 */
             if (current_player == 2) {
-                player2pp--
+                player2[2]--
             }
         /* If player 2 */  
         } else {
@@ -688,7 +683,7 @@ function PKflash() {
     /* Enough pp test*/
         /* Player 1 */
         if (current_player == 1) {
-                if (player1pp > 0) {
+                if (player1[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -697,7 +692,7 @@ function PKflash() {
         /* Player 1 */
         /* Player 2 */
             if (current_player == 2) {
-                if (player2pp > 0) {
+                if (player2[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -708,17 +703,17 @@ function PKflash() {
     if (enough_pp == 1) {
         /* If player 1 */
             if (current_player == 1) {
-                    alert(player1_name + ' tried PK Flash!')
+                    alert(player1[0] + ' tried PK Flash!')
             }
         /* If player 1 */
         /* If player 2 */
             if (current_player == 2) {
-                alert(player2_name + ' tried PK Flash!')
+                alert(player2[0] + ' tried PK Flash!')
             }
         /* If player 2*/
         ohkoChance = Math.round(Math.random()*99)
         if (ohkoChance > 90) {
-            bosshp = 0
+            boss[0] = 0
             alert("Boss was desintegrated from existence!")
 
         } else if (ohkoChance > 75) {
@@ -757,12 +752,12 @@ function PKflash() {
         }
         /* If player 1 */
            if (current_player == 1) {
-                player1pp--
+                player1[2]--
             }
         /* If player 1 */  
         /* If player 2 */
             if (current_player == 2) {
-                player2pp--
+                player2[2]--
             }
         /* If player 2 */ 
     } else {
@@ -775,7 +770,7 @@ function PKthunder() {
     /* Enough pp test*/
         /* Player 1 */
         if (current_player == 1) {
-                if (player1pp > 0) {
+                if (player1[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -784,7 +779,7 @@ function PKthunder() {
         /* Player 1 */
         /* Player 2 */
             if (current_player == 2) {
-                if (player2pp > 0) {
+                if (player2[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -795,30 +790,30 @@ function PKthunder() {
     if (enough_pp == 1) {
         /* If player 1 */
             if (current_player == 1) {
-                    alert(player1_name + ' tried PK Thunder!')
+                    alert(player1[0] + ' tried PK Thunder!')
             }
         /* If player 1 */
         /* If player 2 */
             if (current_player == 2) {
-                alert(player2_name + ' tried PK Thunder!')
+                alert(player2[0] + ' tried PK Thunder!')
             }
         /* If player 2*/
         maxthunderStrike = Math.round(Math.random()*7+1)
         do {
-            if (bosshp > 0) {
+            if (boss[0] > 0) {
                 do {
                     damage = Math.round(Math.random()*35 + Math.random()*2)
                 } while (damage < 15)
                 thunderHit = Math.round(Math.random()*9)
                 if (thunderHit < 5) {
-                    bosshp = bosshp - damage
+                    boss[0] = boss[0] - damage
                     alert(damage + " HP of damage to Boss!")
-                    if (bosshp < 0) {
-                        bosshp = 0
+                    if (boss[0] < 0) {
+                        boss[0] = 0
                     }
-                    alert("Boss has " + bosshp + " HP remaining!")
+                    alert("Boss has " + boss[0] + " HP remaining!")
                     /* Paralysis chance */
-                        if (bosshp > 0) {
+                        if (boss[0] > 0) {
                             parChance = Math.round(Math.random()*9)
                             if (parChance < 2 && paralysis == 0) {
                                 paralysis = 1
@@ -840,12 +835,12 @@ function PKthunder() {
         thunderStrike = 0
         /* If player 1 */
         if (current_player == 1) {
-                player1pp--
+                player1[2]--
             }
         /* If player 1 */  
         /* If player 2 */
             if (current_player == 2) {
-                player2pp--
+                player2[2]--
             }
         /* If player 2 */ 
     } else {
@@ -858,7 +853,7 @@ function PKstarstorm() {
     /* Enough pp test*/
         /* Player 1 */
         if (current_player == 1) {
-                if (player1pp > 0) {
+                if (player1[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -867,7 +862,7 @@ function PKstarstorm() {
         /* Player 1 */
         /* Player 2 */
             if (current_player == 2) {
-                if (player2pp > 0) {
+                if (player2[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -878,31 +873,31 @@ function PKstarstorm() {
     if (enough_pp == 1) {
         /* If player 1 */
         if (current_player == 1) {
-                    alert(player1_name + ' tried PK Starstorm!')
+                alert(player1[0] + ' tried PK Starstorm!')
             }
         /* If player 1 */
         /* If player 2 */
             if (current_player == 2) {
-                alert(player2_name + ' tried PK Starstorm!')
+                alert(player2[0] + ' tried PK Starstorm!')
             }
         /* If player 2*/
         do {
             damage = Math.round(Math.random()*165 + Math.random()*3)
         } while (damage < 130)
-        bosshp = bosshp - damage
+        boss[0] = boss[0] - damage
         alert("Boss suffered a major " + damage + " HP of damage!")
-        if (bosshp < 0) {
-            bosshp = 0
+        if (boss[0] < 0) {
+            boss[0] = 0
         }
-        alert("Boss has " + bosshp + " HP remaining!")
+        alert("Boss has " + boss[0] + " HP remaining!")
         /* If player 1 */
         if (current_player == 1) {
-                player1pp--
+                player1[2]--
             }
         /* If player 1 */  
         /* If player 2 */
             if (current_player == 2) {
-                player2pp--
+                player2[2]--
             }
         /* If player 2 */ 
     } else {
@@ -915,7 +910,7 @@ function PKrockin() {
     /* Enough pp test*/
         /* Player 1 */
         if (current_player == 1) {
-                if (player1pp > 0) {
+                if (player1[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -924,7 +919,7 @@ function PKrockin() {
         /* Player 1 */
         /* Player 2 */
             if (current_player == 2) {
-                if (player2pp > 0) {
+                if (player2[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -935,31 +930,31 @@ function PKrockin() {
     if (enough_pp == 1) {
         /* If player 1 */
         if (current_player == 1) {
-                    alert(player1_name + ' tried PK Rockin!')
+                    alert(player1[0] + ' tried PK Rockin!')
             }
         /* If player 1 */
         /* If player 2 */
             if (current_player == 2) {
-                alert(player2_name + ' tried PK Rockin!')
+                alert(player2[0] + ' tried PK Rockin!')
             }
         /* If player 2*/
         do {
             damage = Math.round(Math.random()*220 + Math.random()*6)
         } while (damage < 100)
-        bosshp = bosshp - damage
+        boss[0] = boss[0] - damage
         alert("Boss suffered a hyper major " + damage + " HP of damage!")
-        if (bosshp < 0) {
-            bosshp = 0
+        if (boss[0] < 0) {
+            boss[0] = 0
         }
-        alert("Boss has " + bosshp + " HP remaining!")
+        alert("Boss has " + boss[0] + " HP remaining!")
         /* If player 1 */
         if (current_player == 1) {
-                player1pp--
+                player1[2]--
             }
         /* If player 1 */  
         /* If player 2 */
             if (current_player == 2) {
-                player2pp--
+                player2[2]--
             }
         /* If player 2 */ 
     } else {
@@ -972,7 +967,7 @@ function PKbeam() {
     /* Enough pp test*/
         /* Player 1 */
         if (current_player == 1) {
-                if (player1pp > 0) {
+                if (player1[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -981,7 +976,7 @@ function PKbeam() {
         /* Player 1 */
         /* Player 2 */
             if (current_player == 2) {
-                if (player2pp > 0) {
+                if (player2[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -992,29 +987,29 @@ function PKbeam() {
     if (enough_pp == 1) {
         /* If player 1 */
             if (current_player == 1) {
-                    alert(player1_name + ' tried PK Beam!')
+                    alert(player1[0] + ' tried PK Beam!')
             }
         /* If player 1 */
         /* If player 2 */
             if (current_player == 2) {
-                alert(player2_name + ' tried PK Beam!')
+                alert(player2[0] + ' tried PK Beam!')
             }
         /* If player 2*/
         damage = 70
-        bosshp = bosshp - damage
+        boss[0] = boss[0] - damage
         alert("Boss suffered " + damage + " HP of damage!")
-        if (bosshp < 0) {
-            bosshp = 0
+        if (boss[0] < 0) {
+            boss[0] = 0
         }
-        alert("Boss has " + bosshp + " HP remaining!")
+        alert("Boss has " + boss[0] + " HP remaining!")
         /* If player 1 */
         if (current_player == 1) {
-                player1pp--
+                player1[2]--
             }
         /* If player 1 */  
         /* If player 2 */
             if (current_player == 2) {
-                player2pp--
+                player2[2]--
             }
         /* If player 2 */ 
     } else {
@@ -1027,7 +1022,7 @@ function PKground() {
     /* Enough pp test*/
         /* Player 1 */
         if (current_player == 1) {
-                if (player1pp > 0) {
+                if (player1[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -1036,7 +1031,7 @@ function PKground() {
         /* Player 1 */
         /* Player 2 */
             if (current_player == 2) {
-                if (player2pp > 0) {
+                if (player2[2] > 0) {
                     enough_pp = 1
                 } else {
                     enough_pp = 0
@@ -1047,29 +1042,29 @@ function PKground() {
     if (enough_pp == 1) {
         /* If player 1 */
         if (current_player == 1) {
-                    alert(player1_name + ' tried PK Ground!')
+                    alert(player1[0] + ' tried PK Ground!')
             }
         /* If player 1 */
         /* If player 2 */
             if (current_player == 2) {
-                alert(player2_name + ' tried PK Ground!')
+                alert(player2[0] + ' tried PK Ground!')
             }
         /* If player 2*/
         max_groundHits = Math.round(Math.random()*7+1)
         do {
-            if (bosshp > 0) {
+            if (boss[0] > 0) {
                 do {
-                    damage = Math.round(Math.random()*17 + bosshp * 0.1)
+                    damage = Math.round(Math.random()*17 + boss[0] * 0.1)
                 } while (damage < 10)
 
-                bosshp = bosshp - damage
+                boss[0] = boss[0] - damage
                 alert("Boss suffered " + damage + " HP of damage!")
-                if (bosshp < 0) {
-                    bosshp = 0
+                if (boss[0] < 0) {
+                    boss[0] = 0
                 }
-                alert("Boss has " + bosshp + " HP remaining!")
+                alert("Boss has " + boss[0] + " HP remaining!")
                 /* Tripping chance */
-                    if (bosshp > 0 && trip == 0) {
+                    if (boss[0] > 0 && trip == 0) {
                         parChance = Math.round(Math.random()*9)
                             if (parChance < 2 && trip == 0) {
                                 trip = 1
@@ -1089,12 +1084,12 @@ function PKground() {
         groundHits = 0
         /* If player 1 */
         if (current_player == 1) {
-                player1pp--
+                player1[2]--
             }
         /* If player 1 */  
         /* If player 2 */
             if (current_player == 2) {
-                player2pp--
+                player2[2]--
             }
         /* If player 2 */ 
     } else {
@@ -1225,9 +1220,9 @@ function move_choice() {
 
 function turn() {  
     renameTag("Emerson")     
-    if ((player1hp > 0 || player2hp > 0) && bosshp > 0) {
+    if ((player1[1] > 0 || player2[1] > 0) && boss[0] > 0) {
             /* Player 1 move choice */
-                if (player1hp > 0) {
+                if (player1[1] > 0) {
                     if (player1move !== 4) {
                         player1Action()
                     }
@@ -1235,54 +1230,44 @@ function turn() {
                     player1_deathmsg = 1
                 }
                 if (player1_deathmsg == 1) {
-                    alert(player1_name + " got hurt and colapsed...")
+                    alert(player1[0] + " got hurt and colapsed...")
                     player1_deathmsg = 2
                 }
             /* Player 2 move choice */
-                if (player2hp > 0 && bosshp > 0) {
+                if (player2[1] > 0 && boss[0] > 0) {
                     if (player2move !== 4) {
                         player2Action()
                     }
-                } else if (player2_deathmsg == 0 && player2hp <= 0) {
+                } else if (player2_deathmsg == 0 && player2[1] <= 0) {
                     player2_deathmsg = 1
                 }
                 if (player2_deathmsg == 1) {
-                    alert(player2_name + " got hurt and colapsed...")
+                    alert(player2[0] + " got hurt and colapsed...")
                     player2_deathmsg = 2
                 }   
             /* Move execution */
             current_player = 1
-            if ((player1move == 1 || player1move == 2) && player1hp > 0 && bosshp > 0)  {
+            if ((player1move == 1 || player1move == 2) && player1[1] > 0 && boss[0] > 0)  {
                 move_choice()
-            } else if (player1hp > 0 && bosshp > 0 && player1move !== 4) {
+            } else if (player1[1] > 0 && boss[0] > 0 && player1move !== 4) {
                 PSIexecution()
             }
             current_player = 2
-            if ((player2move == 1 || player2move == 2) && player2hp > 0 && bosshp > 0) {
+            if ((player2move == 1 || player2move == 2) && player2[1] > 0 && boss[0] > 0) {
                 move_choice()                 
-            } else if (player2hp > 0 && bosshp > 0 && player2move !== 4) {
+            } else if (player2[1] > 0 && boss[0] > 0 && player2move !== 4) {
                 PSIexecution()
             }
     }
-    if ((player1hp > 0 || player2hp > 0) && bosshp > 0 && (player1move !== 4 || player2move !== 4)) {
+    if ((player1[1] > 0 || player2[1] > 0) && boss[0] > 0 && (player1move !== 4 || player2move !== 4)) {
             /* Boss turn */
             bossAction()       
     }
 }
 
-
-if (bosshp <= 0) {
-    alert("Boss was defeated!")
-    alert("You won!")
-}
-if (player1hp <= 0 && player2hp <= 0) {
-    alert("You were hurt and beaten...")
-    alert(player1_name + " lost the battle...")
-}
-
 function initApp () {
-    player1_name = prompt("What is Player 1's name?")
-    player2_name = prompt("Now write Player 2's name...")
+    player1[0] = prompt("What is Player 1's name?")
+    player2[0] = prompt("Now write Player 2's name...")
     turn()
 }
 
@@ -1295,5 +1280,13 @@ function renameTag (value) {
 }
 // Minha branch
 window.onload = function() {
-    turn()
+    initApp()
+    if (boss[0] <= 0) {
+        alert("Boss was defeated!")
+        alert("You won!")
+    }
+    if (player1[1] <= 0 && player2[1] <= 0) {
+        alert("You were hurt and beaten...")
+        alert(player1[0] + " lost the battle...")
+    }
 }
