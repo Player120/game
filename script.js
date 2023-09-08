@@ -1285,7 +1285,7 @@ function renameTag (value) {
     console.log(player1Action)
     console.log()
 }
-// Olá munndo rafael
+// Minha branch
 window.onload = function() {
     turn()
 }
