@@ -1285,7 +1285,7 @@ function renameTag (value) {
     console.log(player1Action)
     console.log()
 }
-// Olá munndo
+// Olá munndo rafael
 window.onload = function() {
     turn()
 }
