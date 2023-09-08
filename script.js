@@ -26,6 +26,8 @@ max_groundHits = 0
 groundHits = 0
 trip = 0
 
+let player1move;
+let player2move;
 let player1_name;
 let player2_name;
 const max_player1hp = player1hp
@@ -434,7 +436,7 @@ function bossPSI() { /* Boss PSI */
 
 function player1Action() { /* Player 1 turn */
     current_player = 1
-    player1move = prompt(
+    player1move = parseInt (prompt(
                 player1_name + '\n' +
                 'What will you do?'+'\n'+
                 '(1) Attack' + "\n" +
@@ -442,7 +444,8 @@ function player1Action() { /* Player 1 turn */
                 '(3) PSI' + '\n' +
                 '(4) EXIT' + '\n' +
                 "HP - " + player1hp + " | PP - " + player1pp
-            )
+            ))
+            console.log(`Player 1 ação: ${player1move}`)
             if (Number(player1move) !== 4) {
                 if (player1move >= 1 && player1move <= 3) {
                     if (player1move == 3) {
@@ -457,7 +460,7 @@ function player1Action() { /* Player 1 turn */
         
         function player2Action() { /* Player 2 turn */
         current_player = 2
-        player2move = prompt(
+        player2move = parseInt (prompt(
                 player2_name + '\n' +
                 'What will you do?'+'\n'+
                 '(1) Attack' + "\n" +
@@ -465,7 +468,8 @@ function player1Action() { /* Player 1 turn */
                 '(3) PSI' + '\n' +
                 '(4) EXIT' + '\n' +
                 "HP - " + player2hp + " | PP - " + player2pp
-            )
+            ))
+            console.log(`Player 2 ação: ${player2move}`)
             if (Number(player2move) !== 4) {
                 if (player2move >= 1 && player2move <= 3) {
                     if (player2move == 3) {
@@ -476,7 +480,7 @@ function player1Action() { /* Player 1 turn */
                     player2Action()
                 }
             }
-}
+        }
 
 function playerAttack() { /* Player normal attack */
     /* If player 1 attacks */
@@ -1224,7 +1228,9 @@ function turn() {
     if ((player1hp > 0 || player2hp > 0) && bosshp > 0) {
             /* Player 1 move choice */
                 if (player1hp > 0) {
-                    player1Action()
+                    if (player1move !== 4) {
+                        player1Action()
+                    }
                 } else if (player1_deathmsg == 0) {
                     player1_deathmsg = 1
                 }
@@ -1234,7 +1240,9 @@ function turn() {
                 }
             /* Player 2 move choice */
                 if (player2hp > 0 && bosshp > 0) {
-                    player2Action()
+                    if (player2move !== 4) {
+                        player2Action()
+                    }
                 } else if (player2_deathmsg == 0 && player2hp <= 0) {
                     player2_deathmsg = 1
                 }
@@ -1244,19 +1252,19 @@ function turn() {
                 }   
             /* Move execution */
             current_player = 1
-            if ((player1move == 1 || player1move == 2) && player1hp > 0 && bosshp > 0) {
+            if ((player1move == 1 || player1move == 2) && player1hp > 0 && bosshp > 0)  {
                 move_choice()
-            } else if (player1hp > 0 && bosshp > 0) {
+            } else if (player1hp > 0 && bosshp > 0 && player1move !== 4) {
                 PSIexecution()
             }
             current_player = 2
             if ((player2move == 1 || player2move == 2) && player2hp > 0 && bosshp > 0) {
                 move_choice()                 
-            } else if (player2hp > 0 && bosshp > 0) {
+            } else if (player2hp > 0 && bosshp > 0 && player2move !== 4) {
                 PSIexecution()
             }
     }
-    if ((player1hp > 0 || player2hp > 0) && bosshp > 0) {
+    if ((player1hp > 0 || player2hp > 0) && bosshp > 0 && (player1move !== 4 || player2move !== 4)) {
             /* Boss turn */
             bossAction()       
     }
@@ -1282,8 +1290,8 @@ function renameTag (value) {
     const h1El = document.querySelector('#titulo')
     h1El.innerHTML = `Ola, ${value}`
     console.log(value)
-    console.log(player1Action)
-    console.log()
+    console.log(`Player 1 ação: ${player1move}`)
+    console.log(`Player 2 ação: ${player2move}`)
 }
 // Minha branch
 window.onload = function() {
