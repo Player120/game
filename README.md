@@ -1,7 +1,7 @@
 A simple Javascript game that i developed a long time ago just for fun, back when I was just learning the basics of JavaScript, and was
 introduced to Github by my uncle programmer Emerson. It is extremely basic, as it is utilizes just alerts and prompts in which you choose
 a number to perform an action alongside another player to defeat the Boss enemy.
-The moves boil down to just simple attacks that have a chance to be a critical hit, a heal thar restores a random amount of HP, and PSI
+The moves boil down to just simple attacks that have a chance to be a critical hit, a heal that restores a random amount of HP, and PSI
 moves inspired by the Earthbound series that have unique effects against the Boss enemy and can be extremely powerfull, but their usage
 is limited by the ammount of PP you have.
 If the Boss's HP reaches 0 (or you one-hit-KO them), it dies and you win, and if both of your player charaters HP reaches 0 (aka you're
